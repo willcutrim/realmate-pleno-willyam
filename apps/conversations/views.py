@@ -8,9 +8,9 @@ from rest_framework.exceptions import NotFound
 from django.http import Http404
 
 from .serializers import ConversationSerializer
-from .models import Conversation
-from .models import Conversation
+from .models import Conversation, Message
 from .business import WebhookService
+from .serializers import MessageSerializer
 
 
 class ConversationDetailView(generics.RetrieveAPIView):
@@ -24,6 +24,17 @@ class ConversationDetailView(generics.RetrieveAPIView):
 
         except Http404:
             raise NotFound(detail="Conversa não encontrada.")
+
+
+class ConversationListView(generics.ListAPIView):
+    queryset = Conversation.objects.all()
+    serializer_class = ConversationSerializer
+
+
+class MessageListView(generics.ListAPIView):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+
 
 class WebhookView(APIView):
     def post(self, request):
