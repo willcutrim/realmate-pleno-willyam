@@ -47,7 +47,7 @@ class WebhookService:
             return {'error': 'Conversa está fechada'}, status.HTTP_400_BAD_REQUEST
 
         if message:
-            return {'message': 'Mensagem já recebida'}, status.HTTP_200_OK
+            return {'message': 'Mensagem já recebida'}, status.HTTP_400_BAD_REQUEST
 
         Message.objects.create(
             id=msg_id,
