@@ -25,13 +25,10 @@ def process_message_group(conversation_id):
     tempo_desde_ultima_msg = (timezone.now() - latest_inbound.timestamp).total_seconds()
 
     if tempo_desde_ultima_msg < 5:
-        # Reagenda para rodar novamente
         process_message_group.apply_async(args=[conversation_id], countdown=2)
         return
 
-    content = "Mensagens agrupadas:\n" + "\n".join([
-        f"- {m.content}" for m in inbound_messages
-    ])
+    content = "Mensagens recebidas:\n" + "\n".join([str(m.id) for m in inbound_messages])
 
     Message.objects.create(
         conversation=conversation,
